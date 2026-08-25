@@ -19,28 +19,36 @@ export function initContactForm(): void {
       mensagem: mensagem.value,
     };
 
-    const resposta = await fetch("https://portfolio-i57t.onrender.com/contato", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(dados),
-    });
+    try {
+      const resposta = await fetch(
+        "https://portfolio-i57t.onrender.com/contato",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(dados),
+        }
+      );
 
-    const resultado = await resposta.json();
+      const resultado = await resposta.json();
 
-    const popup = document.querySelector<HTMLElement>("#contato-popup");
-const popupMensagem =
-  document.querySelector<HTMLParagraphElement>("#contato-popup-mensagem");
+      const popup = document.querySelector<HTMLElement>("#contato-popup");
+      const popupMensagem =
+        document.querySelector<HTMLParagraphElement>(
+          "#contato-popup-mensagem"
+        );
 
-if (!popup || !popupMensagem) return;
+      if (!popup || !popupMensagem) return;
 
-popupMensagem.textContent = resultado.mensagem;
-popup.classList.add("contato-popup--visivel");
+      popupMensagem.textContent = resultado.mensagem;
+      popup.classList.add("contato-popup--visivel");
 
-setTimeout(() => {
-  popup.classList.remove("contato-popup--visivel");
-}, 3000);
-
+      setTimeout(() => {
+        popup.classList.remove("contato-popup--visivel");
+      }, 3000);
+    } catch (erro) {
+      console.error("Erro durante o envio:", erro);
+    }
   });
 }
