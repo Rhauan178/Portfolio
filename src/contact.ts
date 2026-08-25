@@ -19,7 +19,7 @@ export function initContactForm(): void {
       mensagem: mensagem.value,
     };
 
-    const resposta = await fetch("https://effective-palm-tree-q7p7gwv564pjfxjrp-3000.app.github.dev/contato", {
+    const resposta = await fetch("https://portfolio-i57t.onrender.com/contato", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
