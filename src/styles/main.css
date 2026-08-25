@@ -1,0 +1,1026 @@
+/* ==========================================================================
+   RESET MÍNIMO
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+/* rolagem suave para os links "#âncora" do menu — só isso já resolve o
+   scroll suave pedido, sem precisar de JS nenhum para essa parte */
+html {
+  scroll-behavior: smooth;
+}
+
+img,
+embed {
+  display: block;
+  max-width: 100%;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* ==========================================================================
+   VARIÁVEIS (design tokens) — ETAPA 3: identidade visual retrô/HUD
+   Fundo bem escuro com leve tom arroxeado; magenta/roxo como destaque
+   principal (menu ativo, títulos, bordas); ciano como destaque secundário
+   (links de conteúdo). Ainda não é a paleta "definitiva de cada seção" —
+   isso continua para prompts futuros, seção por seção.
+   ========================================================================== */
+
+:root {
+  /* fundo — evitando preto puro, como pedido, para dar mais profundidade */
+  --color-bg: #0b0714;
+  --color-bg-panel: #140f24;
+  --color-bg-panel-hover: #1d1533;
+
+  /* texto */
+  --color-text: #f1eef7;
+  --color-text-muted: #a99fc4;
+
+  /* destaque principal — magenta/roxo */
+  --color-primary: #e83fd0;
+  --color-primary-glow: rgba(232, 63, 208, 0.35);
+
+  /* destaque secundário — ciano, reservado para links de conteúdo e detalhes */
+  --color-secondary: #34e0e5;
+
+  /* bordas */
+  --color-border: #2a2140;
+  --color-border-strong: #40325e;
+
+  /* tipografia: Handjet (pixel/LCD) só em títulos, menu e labels;
+     textos longos continuam na fonte de sistema, por legibilidade */
+  --font-base: system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-pixel: "Handjet", var(--font-base);
+
+  /* espaçamento */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 1rem;
+  --space-4: 1.5rem;
+  --space-5: 2.5rem;
+
+  /* formas */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  /* "canto cortado" reutilizável — um dos poucos detalhes pixel art
+     explicitamente pedidos, aplicado de forma discreta e consistente */
+  --corner-clip: polygon(
+    6px 0,
+    100% 0,
+    100% calc(100% - 6px),
+    calc(100% - 6px) 100%,
+    0 100%,
+    0 6px
+  );
+
+  --sidebar-width: 240px;
+  --content-max-width: 1080px;
+  --mobile-toggle-size: 44px;
+  --cert-card-width: 360px;
+  --cert-offset: 260px;
+}
+
+/* ==========================================================================
+   TIPOGRAFIA BASE
+   ========================================================================== */
+
+body {
+  font-family: var(--font-base);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  line-height: 1.5;
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.2;
+  margin: 0 0 var(--space-3);
+  font-family: var(--font-pixel);
+  letter-spacing: 0.02em; /* ajuda a legibilidade de fontes pixeladas */
+  color: var(--color-text);
+}
+
+h1 {
+  font-size: clamp(2.5rem, 5vw + 1rem, 3.75rem);
+}
+
+h2 {
+  font-size: clamp(1.65rem, 2vw + 1rem, 2.15rem);
+}
+
+h3 {
+  font-size: 1.3rem;
+}
+
+p {
+  margin: 0 0 var(--space-3);
+}
+
+/* ciano reservado para links de conteúdo (GitHub, abrir/baixar currículo) —
+   o menu lateral tem sua própria cor de estado, não herda daqui */
+a {
+  color: var(--color-secondary);
+}
+
+strong {
+  color: var(--color-primary);
+}
+
+/* foco visível e consistente em qualquer link/botão do site — sem isso,
+   navegar só pelo teclado não mostra claramente onde o foco está */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--color-secondary);
+  outline-offset: 2px;
+}
+
+/* ==========================================================================
+   LAYOUT ESTRUTURAL
+   ========================================================================== */
+
+.layout {
+  display: grid;
+  grid-template-columns: var(--sidebar-width) 1fr;
+  min-height: 100dvh;
+}
+
+/* ==========================================================================
+   SIDEBAR / MENU HUD
+   ========================================================================== */
+
+.sidebar {
+  position: sticky; /* desktop: é uma coluna do grid — sticky "gruda" sem sair do layout */
+  top: 0;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-3);
+  background-color: var(--color-bg-panel);
+  border-right: 1px solid var(--color-border);
+}
+
+.sidebar__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.sidebar__eyebrow {
+  margin: 0;
+  font-family: var(--font-pixel);
+  font-size: 0.85rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.sidebar__brand {
+  margin: 0;
+  font-family: var(--font-pixel);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.sidebar__nav ul {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+/* cada item = um "painel" de HUD: borda visível, canto cortado, indicador
+   em forma de losango que só ganha cor no hover/estado ativo */
+.sidebar__nav a {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  font-family: var(--font-pixel);
+  font-size: 1.05rem;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  clip-path: var(--corner-clip);
+  transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+}
+
+.sidebar__nav a::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  flex-shrink: 0;
+  background-color: transparent;
+  border: 1px solid var(--color-border-strong);
+  transform: rotate(45deg);
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.sidebar__nav a:hover {
+  border-color: var(--color-primary);
+  background-color: var(--color-bg-panel-hover);
+}
+
+.sidebar__nav a:hover::before {
+  border-color: var(--color-primary);
+}
+
+/* estado ATIVO — sem piscar: só cor/sombra estáticas */
+.sidebar__link--ativo {
+  border-color: var(--color-primary);
+  background-color: var(--color-bg-panel-hover);
+  color: #ffffff;
+  box-shadow: 0 0 10px var(--color-primary-glow);
+}
+
+.sidebar__link--ativo::before {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.sidebar__social {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  font-size: 0.95rem;
+}
+
+.link-pendente {
+  color: var(--color-text-muted);
+  cursor: default;
+}
+
+/* ==========================================================================
+   BOTÃO HAMBÚRGUER (visível só no mobile — ver media query)
+   ========================================================================== */
+
+.menu-toggle {
+  display: none;
+  position: fixed;
+  top: var(--space-3);
+  right: var(--space-3);
+  z-index: 50;
+  width: var(--mobile-toggle-size);
+  height: var(--mobile-toggle-size);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  background-color: var(--color-bg-panel);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+
+.menu-toggle__bar {
+  width: 22px;
+  height: 2px;
+  background-color: var(--color-text);
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+/* transforma as 3 barras em "X" com base no próprio aria-expanded —
+   uma única fonte de verdade, sem precisar de uma classe extra em paralelo */
+.menu-toggle[aria-expanded="true"] .menu-toggle__bar:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.menu-toggle[aria-expanded="true"] .menu-toggle__bar:nth-child(2) {
+  opacity: 0;
+}
+
+.menu-toggle[aria-expanded="true"] .menu-toggle__bar:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* ==========================================================================
+   CONTEÚDO PRINCIPAL
+   ========================================================================== */
+
+main {
+  padding: var(--space-5);
+  max-width: var(--content-max-width);
+  /* isto é a centralização em si: com max-width já definido, margens
+     automáticas absorvem o espaço que sobra e o dividem igualmente dos
+     dois lados — nada de calcular ou fixar uma distância em pixels */
+  margin-inline: auto;
+}
+
+main section {
+  padding-block: var(--space-5);
+  border-bottom: 1px solid var(--color-border);
+}
+
+main section:first-child {
+  padding-top: 0;
+}
+
+main section:last-child {
+  border-bottom: none;
+}
+
+/* pequeno acento de HUD à esquerda do bloco de abertura — o mesmo tipo de
+   detalhe usado no menu, mas discreto, sem virar um "card" cheio de bordas */
+.hero {
+  display: flex;
+  flex-direction: column;
+  /* presença de "primeira tela" sem forçar 100vh — se o conteúdo (agora bem
+     mais completo) já passar disso, esse valor simplesmente não é o fator
+     limitante, e não sobra espaço vazio artificial */
+  min-height: 70vh;
+  justify-content: center;
+  border-left: 3px solid var(--color-primary);
+  padding-left: var(--space-4);
+  padding-bottom: calc(var(--space-5) + var(--space-3));
+}
+
+.hero__kicker {
+  margin: 0 0 var(--space-2);
+  font-family: var(--font-pixel);
+  font-size: 0.9rem;
+  letter-spacing: 0.1em;
+  color: var(--color-text-muted);
+}
+
+.hero__subtitulo {
+  font-family: var(--font-pixel);
+  font-size: 1.05rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-secondary);
+}
+
+/* pequena linha divisória entre o nome e o subtítulo — só isso, sem losango
+   nem brilho, para não competir com o destaque que o menu já usa */
+.hero__subtitulo::before {
+  content: "";
+  display: block;
+  width: 56px;
+  height: 2px;
+  margin-bottom: var(--space-2);
+  background-color: var(--color-primary);
+}
+
+.hero__frase {
+  max-width: 42ch; /* evita a frase esticar por toda a largura da hero */
+  color: var(--color-text-muted);
+}
+
+.hero__tech {
+  margin-top: var(--space-3);
+}
+
+.hero__tech-titulo {
+  font-size: 0.9rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-3);
+}
+
+.tech-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  max-width: 640px;
+}
+
+.tech-card {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 110px;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-3) var(--space-2);
+  text-align: center;
+  color: var(--color-text-muted);
+  background-color: var(--color-bg-panel);
+  border: 1px solid var(--color-border);
+  clip-path: var(--corner-clip);
+  transition: border-color 0.15s ease, transform 0.15s ease,
+    box-shadow 0.15s ease, color 0.15s ease;
+}
+
+/* reação sutil e curta — sem depender de hover no mobile, já que lá o
+   card já aparece na aparência "normal" o tempo todo */
+.tech-card:hover {
+  border-color: var(--color-primary);
+  color: var(--color-text);
+  transform: translateY(-3px);
+  box-shadow: 0 0 10px var(--color-primary-glow);
+}
+
+.tech-card__icone {
+  width: 32px;
+  height: 32px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.tech-card__nome {
+  font-size: 0.85rem;
+}
+
+.hero__ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-5);
+}
+
+.btn {
+  display: inline-block;
+  padding: var(--space-2) var(--space-4);
+  font: inherit;
+  font-family: var(--font-pixel);
+  font-size: 1.05rem;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+  clip-path: var(--corner-clip);
+  transition: border-color 0.15s ease, background-color 0.15s ease,
+    box-shadow 0.15s ease, color 0.15s ease;
+}
+
+.btn--primary {
+  color: var(--color-bg);
+  background-color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+}
+
+.btn--primary:hover {
+  box-shadow: 0 0 12px var(--color-primary-glow);
+}
+
+.btn--secondary {
+  color: var(--color-text);
+  background-color: transparent;
+  border: 1px solid var(--color-border-strong);
+}
+
+.btn--secondary:hover {
+  border-color: var(--color-secondary);
+  color: var(--color-secondary);
+}
+
+/* fica ancorado embaixo da hero (margin-top:auto consome o espaço restante
+   do flex antes do justify-content:center agir sobre o resto do conteúdo) */
+.hero__scroll-cue {
+  margin-top: auto;
+  padding-top: var(--space-4);
+  color: var(--color-text-muted);
+  font-size: 1.2rem;
+}
+
+/* ---- Sobre mim ---- */
+
+.sobre-mim__conteudo {
+  display: flex;
+  gap: var(--space-4);
+  align-items: flex-start;
+}
+
+.sobre-mim__foto {
+  width: 240px;
+  flex-shrink: 0;
+  /* antes usava border-radius (cantos arredondados) — troquei pelo mesmo
+     --corner-clip do menu e dos cards de experiência/projeto, porque ter
+     dois "vocabulários" de canto diferentes no mesmo site (arredondado
+     aqui, cortado ali) é o tipo de inconsistência que a auditoria original
+     apontou; agora a foto conversa visualmente com o resto do HUD */
+  clip-path: var(--corner-clip);
+  padding: var(--space-2);
+  background-color: var(--color-bg-panel);
+  border: 1px solid var(--color-border-strong);
+}
+
+/* acento discreto no texto — não é um "card" fechado como o da foto, porque
+   um painel cheio em volta de dois parágrafos longos fica apertado; só uma
+   borda lateral já basta para os dois lados conversarem visualmente */
+.sobre-mim__texto {
+  border-left: 2px solid var(--color-border-strong);
+  padding-left: var(--space-4);
+}
+
+/* ---- Currículo & Experiência ---- */
+
+.curriculo-experiencia__conteudo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+}
+
+.curriculo__preview {
+  width: 100%;
+  height: 360px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+}
+
+.curriculo__acoes {
+  display: flex;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+
+.curriculo__acoes a {
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+}
+
+.experiencia__item {
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  clip-path: var(--corner-clip);
+}
+
+.experiencia__item p {
+  margin: 0 0 var(--space-1);
+}
+
+.experiencia__empresa {
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.experiencia__periodo,
+.experiencia__atividades {
+  color: var(--color-text-muted);
+}
+
+/* ---- Certificados: carrossel ---- */
+
+.carousel {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.carousel__seta {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  color: var(--color-text-muted);
+  background-color: var(--color-bg-panel);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  clip-path: var(--corner-clip);
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.carousel__seta svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.carousel__seta:hover {
+  border-color: var(--color-primary);
+  color: var(--color-text);
+}
+
+/* área com altura fixa: os cards dentro são position:absolute (para o
+   deslize com transform funcionar), então o track não teria altura
+   própria sem isso — o valor cobre o card mais alto dos dois certificados
+   atuais com folga; ao crescer para mais certificados isso não muda,
+   porque a altura de CADA card individual não depende da quantidade total */
+.carousel__track {
+  position: relative;
+  flex: 1;
+  height: 430px;
+  overflow: hidden;
+}
+
+.cert-card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(var(--cert-card-width), 90%);
+  transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+.cert-card[data-state="active"] {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+  z-index: 3;
+}
+
+.cert-card[data-state="prev"] {
+  transform: translate(calc(-50% - var(--cert-offset)), -50%) scale(0.8);
+  opacity: 0.4;
+  z-index: 2;
+}
+
+.cert-card[data-state="next"] {
+  transform: translate(calc(-50% + var(--cert-offset)), -50%) scale(0.8);
+  opacity: 0.4;
+  z-index: 2;
+}
+
+.cert-card[data-state="hidden"] {
+  transform: translate(-50%, -50%) scale(0.6);
+  opacity: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.cert-card__link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  background-color: var(--color-bg-panel);
+  border: 1px solid var(--color-border);
+  clip-path: var(--corner-clip);
+  overflow: hidden;
+}
+
+/* só o card ativo tem borda/glow de destaque — os laterais permanecem
+   "reconhecíveis" (pedido explícito), só menores e mais discretos */
+.cert-card[data-state="active"] .cert-card__link {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 14px var(--color-primary-glow);
+}
+
+.cert-card__preview {
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+}
+
+.cert-card__badge {
+  display: none; /* só aparece no card ativo */
+  padding: var(--space-1) var(--space-2);
+  font-family: var(--font-pixel);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: var(--color-primary);
+}
+
+.cert-card[data-state="active"] .cert-card__badge {
+  display: block;
+}
+
+.cert-card__info {
+  padding: var(--space-2) var(--space-3) var(--space-3);
+}
+
+.cert-card__titulo {
+  font-size: 1.05rem;
+  margin-bottom: var(--space-1);
+}
+
+.cert-card__meta {
+  margin: 0 0 var(--space-1);
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.cert-card__descricao {
+  margin: 0 0 var(--space-1);
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.cert-card__acao {
+  display: none; /* só aparece no card ativo, junto com o badge */
+  font-size: 0.8rem;
+  color: var(--color-secondary);
+}
+
+.cert-card__validacao {
+  display: none;
+
+  width: fit-content;
+  margin-top: 0.5rem;
+
+  font-size: 0.8rem;
+  color: var(--color-secondary);
+  text-decoration: none;
+
+  border-bottom: 1px solid transparent;
+
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.cert-card[data-state="active"] .cert-card__validacao{
+  display: inline-block;
+}
+
+.cert-card__validacao:hover {
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.cert-card[data-state="active"] .cert-card__acao {
+  display: inline-block;
+}
+
+.carousel__indicadores {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
+
+.carousel__indicador {
+  width: 10px;
+  height: 10px;
+  padding: 0;
+  background-color: transparent;
+  border: 1px solid var(--color-border-strong);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.carousel__indicador[aria-current="true"] {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 6px var(--color-primary-glow);
+}
+
+/* ---- Projetos ---- */
+
+.projetos__lista {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.projetos__item {
+  padding: var(--space-3);
+  background: var(--color-bg-panel);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  clip-path: var(--corner-clip);
+
+  transition:
+  transform 0.2s ease,
+  border-color 0.2s ease,
+  box-shadow 0.2s ease;
+}
+
+.projetos__item:hover {
+  transform: translateY(-4px);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 12px var(--color-primary-glow);
+}
+
+.projeto-card__acoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+}
+
+.projeto-card__link {
+  display: inline-block;
+  padding: 0.4rem 0.7rem;
+
+  color: var(--color-secondary);
+  text-decoration: none;
+
+  border: 1px solid rgba(52, 224, 229, 0.35);
+
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.projeto-card__link:hover {
+  color: var(--color-bg);
+  background-color: var(--color-secondary);
+  border-color: var(--color-secondary);
+}
+
+.projeto-card__tecnologias {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+
+  margin-top: 1rem;
+}
+
+.projeto-card__tag {
+  padding: 0.3rem 0.6rem;
+
+  font-size: 0.85rem;
+  color: var(--color-secondary);
+
+  border: 1px solid var(--color-border);
+  background: var(--color-bg);
+}
+
+
+/* ---- Contato ---- */
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin-bottom: var(--space-3);
+}
+
+.campo label {
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+}
+
+.campo input,
+.campo textarea {
+  font: inherit;
+  color: var(--color-text);
+  background-color: var(--color-bg-panel);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: var(--space-2);
+}
+
+.contato__form button[type="submit"] {
+  font: inherit;
+  color: var(--color-bg);
+  background-color: var(--color-primary);
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: var(--space-2) var(--space-4);
+  cursor: pointer;
+}
+
+.contato-popup {
+  position: fixed;
+  right: 2rem;
+  bottom: 2rem;
+
+  max-width: 320px;
+  padding: 1rem 1.25rem;
+
+  background-color: var(--color-bg-panel);
+  border: 1px solid var(--color-secondary);
+  clip-path: var(--corner-clip);
+
+  opacity: 0;
+  transform: translateY(20px);
+
+  pointer-events: none;
+
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+
+.contato-popup--visivel {
+  opacity: 1;
+  transform: translateY(0);
+}
+/* ---- rodapé ---- */
+
+.rodape {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: var(--space-3);
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
+
+/* ==========================================================================
+   RESPONSIVIDADE — menu vira gaveta (drawer) com o hambúrguer
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .menu-toggle {
+    display: flex;
+  }
+
+  /* espaço para o botão fixo não cobrir o topo de uma seção recém-rolada */
+  html {
+    scroll-padding-top: calc(var(--mobile-toggle-size) + var(--space-3) * 2);
+  }
+
+  .sidebar {
+    position: fixed;
+    inset: 0 auto 0 0;
+    width: min(300px, 85vw);
+    height: 100dvh;
+    z-index: 40;
+    transform: translateX(-100%);
+    /* visibility com atraso só ao FECHAR: garante que o menu some da
+       navegação por teclado (Tab) quando fechado, sem cortar a animação
+       de saída no meio do caminho */
+    visibility: hidden;
+    transition: transform 0.25s ease, visibility 0s linear 0.25s;
+  }
+
+  .sidebar.is-open {
+    transform: translateX(0);
+    visibility: visible;
+    transition: transform 0.25s ease, visibility 0s linear 0s;
+  }
+
+  /* trava a rolagem do fundo só enquanto o menu mobile está aberto */
+  body.menu-aberto {
+    overflow: hidden;
+  }
+
+  .curriculo-experiencia__conteudo {
+    grid-template-columns: 1fr;
+  }
+
+  .hero {
+    padding-left: var(--space-3);
+  }
+
+  .tech-grid {
+    max-width: 100%;
+  }
+
+  .tech-card {
+    flex-basis: 85px;
+    padding: var(--space-2) var(--space-1);
+  }
+
+  .tech-card__icone {
+    width: 26px;
+    height: 26px;
+  }
+
+  /* a foto é um item de tamanho fixo (240px) dentro de um flex-column — sem
+     centralizar, ela ficaria "grudada" na esquerda em vez de equilibrada
+     acima do texto, que ocupa a largura toda */
+  .sobre-mim__conteudo {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .sobre-mim__texto {
+    border-left: none;
+    padding-left: 0;
+  }
+
+  .rodape {
+    grid-column: auto;
+  }
+
+  .sobre-mim__conteudo {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+  /* "Quero principalmente [CERTIFICADO ATIVO] com setas e indicadores" —
+     em vez de forçar três cards minúsculos, os laterais recebem o mesmo
+     tratamento do estado "hidden": invisíveis e fora da navegação por
+     teclado (o tabIndex=-1 já é aplicado em JS para qualquer card que não
+     seja o ativo, independente de largura de tela). */
+  .cert-card[data-state="prev"],
+  .cert-card[data-state="next"] {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .carousel__track {
+    height: 380px;
+  }
+
+  .carousel__seta {
+    width: 36px;
+    height: 36px;
+  }
+}

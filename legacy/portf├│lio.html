@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfólio de Rhauan</title>
+    <link rel="stylesheet" href="portfólio.css">
+    <!--fonte colocada a partir de um link externo-->
+    <link href="https://fonts.googleapis.com/css2?family=Handjet:wght@100..900&display=swap"
+     rel="stylesheet">
+</head>
+<body> 
+        <section class="hidden"> <!--class hidden serve como parte da engrenagem feita no javascript, em que o hidden é meio que o "estado inicial" da página
+            antes de ter o efeito de blur até aparecer o conteúdo-->
+            <div class="background_gh">
+                <section class="titulo"> 
+                    <h1> Rhauan Rafael </h1>
+                    <section class="hidden">
+                        <section class="imagens"> <!-- divisão da seção com a classe imagens-->
+                            <div id="anel">
+                                <img src="Imagem/Argolinha.gif" alt="argolinha">
+                            </div>
+                            <div id="sonic">
+                                <img src="Imagem/sonic.gif" alt="Sonic">
+                            </div>
+                        </section>
+                    </section>
+                </section>
+            </div>
+        </section>
+    
+
+    <section class="hidden"> 
+        <div class="background_sp"> <!--parte feita para o segundo background -->
+                <div class="intro"> <!-- parte do começo da segunda página-->
+                    <h2> Sobre mim: </h2>
+                </div>
+                <div class="container">
+                <ul class="paragrafos">
+                    <!-- listagem feita para deixar mais bonito na hora da apresentação dos parágrafos do site-->
+                    <li>Meu nome é Rhauan Rafael Martins Medeiros, nasci no mês de fevereiro do ano de 2005, desde pequeno tenho uma certa paixão
+                        por mexer em computador, seja descobrindo o prompt de comando com 12 anos ou até mesmo aprendendo os "macetes"
+                        do computador desde cedo.</li>
+                        <li>
+                            Atualmente, no ano de 2024, estou cursando o curso de ciência da computação na UNIFBV,
+                            gostando bastante das cadeiras apresentadas e de tudo que aprendi até então. Logo, estou
+                            em busca do meu primeiro estágio, ansioso para ver o mercado de trabalho com olhos mais 
+                            sérios e dispostos(espero eu).
+                            Atualmente sei o básico das linguagens <span class="destaque">C, Python e JavaScript,</span>
+                            como também já mexi um pouco na parte de<span class="destaque2"> HTML e CSS.</span>
+                        </li>
+                </ul>
+            </div>
+                <div id="foto"> <!-- id designado para a minha foto na pasta de imagens-->
+                    <img src="Imagem/eu.png" alt="Foto">
+                </div>
+                        <div class="button2"> <!-- divisão da classe do botão-->
+                            <button>
+                                <a href="https://github.com/Rhauan178" target="_blank">Clique aqui para acessar o meu GitHub.</a>
+                            </button>
+                       
+                    </div>
+                    <div class="link_curriculo"> 
+                        <button> <!-- parte que leva até o outro arquivo html presente no rar-->
+                        <a href="currículo.html">Clique aqui para ver o meu currículo</a>
+                    </button>
+                    </div>
+                </div>
+
+        <div class="rodape"> <!-- parte para o texto que fica no final da página-->
+            <p>Feito por Rhauan</p>
+        </div>
+    </section>
+    <script src="portfólio.js"></script> <!-- linkagem entre o html e o javascript-->
+</body>
+</html>

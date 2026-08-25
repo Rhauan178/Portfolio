@@ -1,0 +1,38 @@
+body {  /*algumas definições para o body*/
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+#curriculo { /* definição/alterações para o id curriculo, para ele ficar melhor encaixado e colocado*/
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+ /*organização do h1*/
+h1 {
+    text-align: center;
+    color: #333;
+}
+/* parte responsável por mostrar o currículo*/
+embed {
+    display: block; /* elemento sendo exibido como bloco, ocupando tudo ao redor, empurrando o resto para baixo*/
+    margin: 20px 0; /* distância entre o currículo e a outra parte*/
+}
+/* parte que ajusta a posição do parágrafo*/
+p {
+    text-align: center;
+}
+/*cor das letras que estarão destacadas como link, que estão na tag "a"*/
+a {
+    color: #007BFF;
+    text-decoration: none;
+}
+/* ao colocar o mouse em cima o texto fica sublinhado*/
+a:hover {
+    text-decoration: underline;
+}

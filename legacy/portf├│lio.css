@@ -1,0 +1,238 @@
+html, body {
+    height: 100vh; /* altura*/
+    margin: 0; /* ajusta o espaço externo dos conteúdos/elementos*/
+    padding: 0; /* ajuste do espaço interno dos conteúdos/elementos */
+    overflow-x: hidden;
+}
+
+* { /* "*" é o seletor universal para arrumar algumas coisas, como posição, evitar bordas, etc*/
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* garante que todos os elementos usem o mesmo layout de caixas*/
+}
+/* parte que representa os parágrafos, num geral*/
+#container {
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+}
+/*parte que ajusta o body, no caso toda a página, para ter meio que umas características pré-estabelecidas*/
+body {
+    width: 100%;
+    padding: 0;
+    max-width: 100%;
+    height: 100vh;
+    margin: 0;
+    color: white;
+    transition: all 0.5s ease; /* transição feita para o efeito do blur*/
+    background-color: #2e0002;
+}
+/*ajustes quanto a fonte, tamanho e posição do título*/
+.titulo {
+    font-family: 'Handjet';
+    text-align: center;
+    margin-bottom: 30px; /*define a margem na parte inferior do elemento/ basicamente cria espaço entre o elemento e o resto
+     das coisas que estão embaixo dele*/
+    padding: 65px; /* espaçamento interno*/
+    font-size: 40px;
+}
+/* parte exclusiva para o primeiro background da página*/
+.background_gh {
+    background: url('Imagem/Green hill.jpg');
+    background-size: 100% 100%;
+    background-color: #2e0002;
+    background-repeat: no-repeat;
+    position: relative;
+}
+/* parte exclusiva para o segundo background da página*/
+.background_sp {
+    background: url('Imagem/studiopolis.jpg');
+    background-size: cover;
+    background-color: #2e0002;
+    position: relative;
+}
+
+/* filtro do blur */
+.blur {
+    filter: blur(10px);
+}
+/* aqui estabiliza um padrão para que todas as partes que tiverem a tag section meio que se separem e formem uma
+"guia separada" */
+section {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: grid;
+}
+
+.paragrafos {
+    background-color: rgba(0, 0, 0, 0.1);
+    height: 1000vh;
+    font-family: 'Handjet'; /* fonte colocada de um link externo*/
+    border: solid black;
+    border: 4px solid black; /* Borda preta com 50% de transparência */
+    background-color: rgba(0, 0, 0, 0.7); /* Preto com 50% de opacidade */
+    background-clip: padding-box; /* Faz com que o fundo não se estenda até a borda */
+    border-radius: 20px; /* deixar as bordas redondas*/
+    font-size: 25px; /* mudar o tamanho das letras*/
+    margin: 30px; /* distância entre elementos*/
+    position: center; /* posição dos paragrafos*/
+    max-width: 900px; /* comprimento máximo para os parágrafos*/
+    text-align: center; /* alinhamento do texto*/
+    color: white; /* cor das letras*/
+    display: flex; /* esse display serve para criar um layout flexível e "livre" */
+    height: 100%;
+
+}
+
+/* alinhamento do botão*/
+.button2 {
+    text-align: center;
+}
+
+.button2 button {
+    background-color: white; /* adiciona um fundo para melhor visualização */
+    color: black;
+    padding: 10px 20px; 
+    border: none;
+    cursor: pointer;
+    border: 1px solid black;
+    border-radius: 20px;
+    margin: 2px; /* espaçamento entre elementos*/
+}
+
+.button2 a {
+    text-decoration: none;
+    color: inherit; /* mantém a cor do texto do botão */
+}
+/*destaque das partes que fala dos meus conhecimentos nas linguagens*/
+.destaque{
+    color: rgb(255, 0, 0);
+}
+/*destaque feito para a parte que fala sobre o HTML e CSS*/
+.destaque2{
+    color: pink;
+}
+
+
+/* parte do "Sobre mim:"*/
+.intro{
+    font-family: 'Handjet';
+    justify-content: center;
+    height: 120px;
+
+}
+
+/* ajustes quanto a posição, tamanho e entre outras coisas do gif do anel*/
+#anel {
+    position: relative;
+    width: 10px;
+    bottom: -150px;
+    right: 0px;
+    left: 920px;
+    opacity: 1;
+    cursor: pointer;
+    transform: scale(0.8);
+}
+
+#sonic {
+    position: relative;
+    height: 0.1vh;  /*ajuste feito para o sonic ficar melhor posicionado no background */
+    width: 90px;
+    bottom: 120px;
+    left: 0;
+    transform: scaleX(-1); /* deixar o sonic na direção do anel */
+    opacity: 0;
+    transition: transform 1s ease-in-out, opacity 1s ease-in-out; /* transição para deixar a animação mais fluida */
+    border: none;
+}
+
+/* parte feita para animar o sonic correndo */
+@keyframes moverSonic {
+    0% { /* a partir daqui ate o final da animação é basicamente o sentido que o sonic vai e a escala dele diminuindo conforme se aproxima da outra imagem*/
+        left: 0px;
+        opacity: 1;
+        transform: scaleX(-1) scale(0.9);
+    }
+    50% {
+        left: 1020px;
+        opacity: 1;
+        transform: scaleX(-1) scale(0.65);
+    }
+    100% {
+        left: 1020px;
+        opacity: 1;
+        transform: scaleX(-1) scale(0.64);
+    }
+}
+
+.animar { /* classe criada no próprio css, juntamente do javascript para fazer a animação funcionar*/
+    animation-delay: 1s;
+    animation: moverSonic 3s ease-in-out forwards;
+    animation-fill-mode: none;
+}
+/* pequena frase que fica no final da página*/
+.rodape {
+    margin: auto;
+    background-color: black;
+    color: #ffffff;
+    padding: 10px;
+    text-align: center;
+    position: fixed;
+    height: 35px;
+    width: 100%;
+    bottom: 0;
+}
+/* arrumando o "sobre mim" que fica escrito na tela*/
+.content {
+    font-family: 'Handjet';
+    display: grid;
+}
+/* tanto esse .hidden como o .show fazem parte da engrenagem que fazem o efeito de 
+blur ao dar o scroll do mouse na tela*/
+.hidden {
+    opacity: 0;
+    filter: blur(15px);
+    transition: all 1s;
+}
+/* faz parte da engrenagem do efeito de blur da página*/
+.show {
+    opacity: 1;
+    filter: blur(0px);
+    transition: all 1s;
+}
+/* arrumar a posição e tamanho da minha foto/ aplica o estilo a elementos dentro do ID foto*/
+#foto {
+    position: absolute;
+    right: 100px;
+    top: 100px;
+    max-width: 80%;
+    height: 10px;
+    transform: scale(1.2);
+}
+/* foca especificamente no img que está dentro do elemento foto, arrumando ele para não acabar causando conflito entre ele 
+e o .button2*/
+#foto img {
+    max-width: 80%;
+    height: auto;
+    margin-bottom: 20px; /* Espaço entre a imagem e o botão */
+}
+/* designação da posição do botão que leva ao meu currículo*/
+.link_curriculo {
+    text-align: center;
+}
+/* ajustes do botão do link*/
+.link_curriculo button {
+    background-color: white; /* cor de fundo do botão */
+    color: black;
+    padding: 10px 20px; /* ajuste do espaço interno */
+    border: none;
+    cursor: pointer;
+    border: 1px solid black;
+    border-radius: 20px; /* arredondar as bordas do botão*/
+}
+/* parte que referencia a tag "a" que está dentro da classe link_curriculo*/
+.link_curriculo a {
+    text-decoration: none;
+    color: inherit; /* Mantém a cor do texto do botão */
+}

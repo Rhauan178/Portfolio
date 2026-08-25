@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rhauan Rafael — Portfólio</title>
+    <meta name="description" content="Portfólio de Rhauan Rafael, estudante de Ciência da Computação." />
+    <!-- Fonte pixelada (Handjet) só para títulos/menu/labels — mesma fonte já usada no
+         projeto antigo (legacy/), mantida por continuidade. Textos longos continuam na
+         fonte de sistema, definida em main.css, por legibilidade. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Handjet:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/src/styles/main.css" />
+    <!-- TODO: favicon próprio entra na etapa de design visual -->
+  </head>
+  <body>
+    <div class="layout"> <!-- div puramente visual: agrupa sidebar + conteúdo para o CSS Grid -->
+
+      <!-- Botão só aparece em telas estreitas (ver media query em main.css).
+           aria-controls aponta para o id da sidebar inteira, porque no mobile é
+           ela inteira (cabeçalho + nav + redes sociais) que abre/fecha, não só a lista. -->
+      <button
+        id="menu-toggle"
+        class="menu-toggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="sidebar"
+        aria-label="Abrir menu de navegação"
+      >
+        <span class="menu-toggle__bar" aria-hidden="true"></span>
+        <span class="menu-toggle__bar" aria-hidden="true"></span>
+        <span class="menu-toggle__bar" aria-hidden="true"></span>
+      </button>
+
+      <header class="sidebar" id="sidebar">
+        <div class="sidebar__header">
+          <p class="sidebar__eyebrow">Portfólio</p>
+          <p class="sidebar__brand">Rhauan Rafael</p>
+        </div>
+
+        <nav class="sidebar__nav" aria-label="Navegação principal">
+          <ul>
+            <li><a href="#inicio" data-nav-link>Início</a></li>
+            <li><a href="#sobre-mim" data-nav-link>Sobre mim</a></li>
+            <li><a href="#curriculo-experiencia" data-nav-link>Currículo &amp; Experiência</a></li>
+            <li><a href="#certificados" data-nav-link>Certificados</a></li>
+            <li><a href="#projetos" data-nav-link>Projetos</a></li>
+            <li><a href="#contato" data-nav-link>Contato</a></li>
+          </ul>
+        </nav>
+
+        <div class="sidebar__social">
+          <a href="https://github.com/Rhauan178" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a href="https://www.linkedin.com/in/rhauan-rafael-b94998240/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        </div>
+      </header>
+
+      <main>
+        <section id="inicio" class="hero" aria-labelledby="inicio-titulo">
+          <p class="hero__kicker">&gt; Portfólio // 2026</p>
+
+          <h1 id="inicio-titulo">Rhauan Rafael</h1>
+
+          <p class="hero__subtitulo">Estudante de Ciência da Computação</p>
+
+          <!-- Frase curta e genérica de propósito — fácil de trocar depois por
+               algo mais pessoal, sem precisar mexer em mais nada ao redor. -->
+          <p class="hero__frase">Estudando, construindo e aprendendo um pouco mais a cada projeto.</p>
+
+          <div class="hero__tech">
+            <h3 class="hero__tech-titulo">Tecnologias em estudo e prática</h3>
+
+            <!-- Uma lista de verdade (cada item é comparável aos outros) —
+                 diferente do uso indevido de <ul> no projeto antigo, que
+                 guardava parágrafos de texto corrido em vez de itens. -->
+            <ul class="tech-grid">
+              <li class="tech-card">
+                <svg class="tech-card__icone" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+                  <rect x="3" y="3" width="26" height="26" rx="4" />
+                  <text x="16" y="21" text-anchor="middle" font-size="11" font-weight="700" stroke="none" fill="currentColor">TS</text>
+                </svg>
+                <span class="tech-card__nome">TypeScript</span>
+              </li>
+              <li class="tech-card">
+                <svg class="tech-card__icone" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+                  <polygon points="16,3 27,9.5 27,22.5 16,29 5,22.5 5,9.5" />
+                  <circle cx="16" cy="16" r="2" fill="currentColor" stroke="none" />
+                </svg>
+                <span class="tech-card__nome">Node.js</span>
+              </li>
+              <li class="tech-card">
+                <svg class="tech-card__icone" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+                  <path d="M9 14h14v7a5 5 0 0 1-5 5h-4a5 5 0 0 1-5-5v-7z" />
+                  <path d="M23 16.5h2a3 3 0 0 1 0 6h-2" />
+                  <path d="M13 10c-1 -1.5 1 -2 0 -3.5" />
+                  <path d="M19 10c-1 -1.5 1 -2 0 -3.5" />
+                </svg>
+                <span class="tech-card__nome">Java</span>
+              </li>
+              <li class="tech-card">
+                <svg class="tech-card__icone" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+                  <path d="M22 11 A9 9 0 1 0 22 21" />
+                </svg>
+                <span class="tech-card__nome">C</span>
+              </li>
+              <li class="tech-card">
+                <svg class="tech-card__icone" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+                  <path d="M9 7h8a4 4 0 0 1 4 4v3.5h-13v-4.5a3 3 0 0 1 1 -3z" />
+                  <path d="M23 25h-8a4 4 0 0 1 -4 -4v-3.5h13v4.5a3 3 0 0 1 -1 3z" />
+                  <circle cx="12.5" cy="10" r="0.9" fill="currentColor" stroke="none"/>
+                  <circle cx="19.5" cy="22" r="0.9" fill="currentColor" stroke="none"/>
+                </svg>
+                <span class="tech-card__nome">Python</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="hero__ctas">
+            <a href="#projetos" class="btn btn--primary">Ver projetos</a>
+            <a href="#curriculo-experiencia" class="btn btn--secondary">Ver currículo</a>
+          </div>
+
+          <span class="hero__scroll-cue" aria-hidden="true">&#8595;</span>
+        </section>
+
+        <section id="sobre-mim" aria-labelledby="sobre-mim-titulo">
+  <h2 id="sobre-mim-titulo">Sobre mim</h2>
+
+  <div class="sobre-mim__conteudo">
+    <img
+      class="sobre-mim__foto"
+      src="/src/assets/images/eu.png"
+      alt="Foto de Rhauan Rafael"
+    />
+
+    <div class="sobre-mim__texto">
+      <p>
+        Meu nome é Rhauan Rafael Martins Medeiros e sou estudante de Ciência da Computação na UNIFBV,
+        atualmente cursando o sexto período. Desde cedo sempre tive interesse por tecnologia e computadores,
+        o que acabou me levando naturalmente para a área de TI.
+      </p>
+
+      <p>
+        Atualmente faço estágio na Pneubras, atuando no time de suporte de TI às lojas da empresa. Antes disso,
+        estagiei durante aproximadamente um ano e meio no Complexo Administrativo da Prefeitura de Jaboatão dos
+        Guararapes, também na área de suporte de TI. Hoje busco ampliar minha atuação profissional e tenho interesse
+        em migrar futuramente para áreas como <strong>Cybersegurança</strong> ou
+        <strong>Desenvolvimento de Software</strong>.
+      </p>
+
+      <p>
+        Ao longo da minha formação e dos meus estudos, desenvolvi projetos como o
+        <strong>Filtro de Nomes para Excel (SNF)</strong>, apresentado mais abaixo, além do
+        <strong>Pointz</strong>, um projeto pessoal que estou desenvolvendo em conjunto com amigos.
+        Tenho experiência com <strong>C, Java, TypeScript, Python e Node.js</strong>, além de utilizar
+        <strong>HTML e CSS</strong> no desenvolvimento de interfaces e aplicações web.
+      </p>
+    </div>
+  </div>
+</section>
+        <section id="curriculo-experiencia" aria-labelledby="curriculo-experiencia-titulo">
+          <h2 id="curriculo-experiencia-titulo">Currículo &amp; Experiência</h2>
+          <div class="curriculo-experiencia__conteudo">
+
+            <div class="curriculo">
+              <h3>Currículo</h3>
+              <embed
+                class="curriculo__preview"
+                src="/curriculo/Curriculo-Rhauan.pdf"
+                type="application/pdf"
+              />
+              <div class="curriculo__acoes">
+                <a href="/curriculo/Curriculo-Rhauan.pdf" target="_blank" rel="noopener noreferrer">Abrir</a>
+                <a href="/curriculo/Curriculo-Rhauan.pdf" download>Baixar</a>
+                <!-- TODO: "Compartilhar" precisa de lógica real (Web Share API) — entra numa etapa futura de TypeScript -->
+              </div>
+            </div>
+
+            <div class="experiencia">
+              <h3>Experiência</h3>
+              <ul class="experiencia__lista">
+                <!-- TODO: item de exemplo/placeholder — substituir por experiências reais.
+                     Nada aqui é informação real, só demonstra a estrutura. -->
+                <li class="experiencia__item">
+                  <p class="experiencia__empresa">[Empresa]</p>
+                  <p class="experiencia__cargo">[Cargo]</p>
+                  <p class="experiencia__periodo">[Período]</p>
+                  <p class="experiencia__atividades">[Principais atividades]</p>
+                </li>
+              </ul>
+            </div>
+
+          </div>
+        </section>
+
+        <section id="certificados" aria-labelledby="certificados-titulo">
+          <h2 id="certificados-titulo">Certificados</h2>
+
+          <!-- Os cards e os indicadores são criados por certificates.ts a partir
+               de data/certificates.ts — a quantidade real decide quantos existem,
+               não há nada fixo aqui além das duas setas (essas não dependem da
+               quantidade de certificados, por isso continuam sendo HTML estático). -->
+          <div class="carousel" id="certificados-carousel">
+            <button
+              type="button"
+              class="carousel__seta carousel__seta--anterior"
+              aria-label="Certificado anterior"
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M15 5l-7 7 7 7" />
+              </svg>
+            </button>
+
+            <div class="carousel__track" id="certificados-track"></div>
+
+            <button
+              type="button"
+              class="carousel__seta carousel__seta--proxima"
+              aria-label="Próximo certificado"
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+          </div>
+
+          <div class="carousel__indicadores" id="certificados-indicadores"></div>
+        </section>
+
+        <section id="projetos" aria-labelledby="projetos-titulo">
+          <h2 id="projetos-titulo">Projetos</h2>
+          <ul class="projetos__lista">
+
+  <li class="projetos__item">
+  <article class="projeto-card">
+    <h2>Filtro de nomes para Excel</h2>
+
+     <p class="projeto-card__descricao">
+    Aplicação desenvolvida para filtrar nomes em planilhas e facilitar a organização dos dados.
+  </p>
+
+    <div class="projeto-card__tecnologias">
+  <span class="projeto-card__tag">Java</span>
+  <span class="projeto-card__tag">TypeScript</span>
+</div>
+
+    <div class="projeto-card__acoes">
+      <a
+        class="projeto-card__link"
+        href="https://rhauan178.github.io/Projeto---Filtro_de_Nomes_Excel/src/main/resources/templates/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Ver projeto
+      </a>
+
+      <a
+        class="projeto-card__link"
+        href="https://github.com/Rhauan178/Projeto---Filtro_de_Nomes_Excel/tree/main"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Ver código
+      </a>
+    </div>
+  </article>
+</li>
+
+<!-- <li class="projetos__item">
+  <article class="projeto-card">
+    <h2>Outro projeto</h2>
+
+    <div class="projeto-card__acoes">
+      <a
+        class="projeto-card__link"
+        href="#"
+      >
+        Ver projeto
+      </a>
+    </div>
+  </article>
+</li> -->
+            <!-- TODO: mais projetos entram aqui conforme forem definidos.
+                 Renderização dinâmica a partir de dados fica para uma etapa futura. -->
+          </ul>
+        </section>
+
+        <section id="contato" aria-labelledby="contato-titulo">
+  <h2 id="contato-titulo">Contato</h2>
+
+  <form id="contato-form" class="contato__form">
+    <div class="campo">
+      <label for="nome">Nome</label>
+      <input type="text" id="nome" name="nome" required />
+    </div>
+
+    <div class="campo">
+      <label for="email">E-mail</label>
+      <input type="email" id="email" name="email" required />
+    </div>
+
+    <div class="campo">
+      <label for="mensagem">Mensagem</label>
+      <textarea id="mensagem" name="mensagem" rows="5" required></textarea>
+    </div>
+
+    <button type="submit">Enviar</button>
+  </form>
+
+  <div id="contato-popup" class="contato-popup" aria-live="polite">
+  <p id="contato-popup-mensagem"></p>
+</div>
+
+</section>
+      </main>
+
+      <footer class="rodape">
+        <p>Feito por Rhauan · <span id="ano-atual">2026</span></p>
+      </footer>
+
+    </div>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
