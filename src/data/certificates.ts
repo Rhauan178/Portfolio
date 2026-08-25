@@ -6,6 +6,8 @@
 // claramente em um certificado específico, o campo opcional correspondente
 // simplesmente fica de fora daquele objeto (ver comentários abaixo).
 
+const base = import.meta.env.BASE_URL;
+
 export interface Certificate {
   /** Identificador simples, usado como key/posição — não precisa ser o id do emissor. */
   id: number;
@@ -36,8 +38,8 @@ export const certificates: Certificate[] = [
     // extraído decodificando o QR "Scan to Verify" impresso no certificado —
     // não veio de nenhum texto selecionável do PDF
     validationUrl: "https://www.credly.com/badges/ba3048b5-b29c-44b7-9f67-c34731344ee4",
-    image: "/certificates/previews/cisco-introduction-to-cybersecurity.webp",
-    pdf: "/certificates/cisco-introduction-to-cybersecurity.pdf",
+    image: `${base}certificates/previews/cisco-introduction-to-cybersecurity.webp`,
+    pdf: `${base}certificates/cisco-introduction-to-cybersecurity.pdf`,
   },
   {
     id: 2,
@@ -47,7 +49,7 @@ export const certificates: Certificate[] = [
       "Desenvolvimento de um SaaS de agendamentos para barbearias, do zero ao deploy.",
     // sem "date": o PDF não imprime nenhuma data no certificado — só existe uma
     // data técnica de geração do arquivo nos metadados, que não é a mesma coisa
-    image: "/certificates/previews/full-stack-weekend.webp",
-    pdf: "/certificates/full-stack-weekend.pdf",
+    image: `${base}certificates/previews/full-stack-weekend.webp`,
+    pdf: `${base}certificates/full-stack-weekend.pdf`,
   },
 ];
